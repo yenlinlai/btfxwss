@@ -5,6 +5,7 @@ import time
 import ssl
 import hashlib
 import hmac
+import decimal
 from multiprocessing import Queue
 from threading import Thread, Event, Timer
 from collections import OrderedDict
@@ -179,7 +180,7 @@ class WebSocketConnection(Thread):
         self.log.debug("_on_message(): Received new message %s at %s",
                        raw, received_at)
         try:
-            data = json.loads(raw)
+            data = json.loads(raw, parse_float=decimal.Decimal)
         except json.JSONDecodeError:
             # Something wrong with this data, log and discard
             return
